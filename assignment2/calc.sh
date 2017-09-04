@@ -87,5 +87,3 @@ else
   echo "The following arguments have to be whole numbers"
 
 fi
-
-
