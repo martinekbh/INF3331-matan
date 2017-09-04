@@ -1,5 +1,4 @@
 #!/bin/bash
-n=$#    #number of arguments from command line
 if [ "$#" = "0" ]; then
   echo "You forgot to write some arguments"
   exit
