@@ -7,7 +7,7 @@ if [ "$#" = "0" ] || [ "$#" = "1" ]; then   #Check for arguments
 fi
 
 if [ "$1" = "S" ]; then       #Finding the sum
-  echo "Finding sum..."
+  #echo "Finding sum..."
   sum=0
   shift #skip first argument
   while [ $# -gt 0 ]
@@ -25,7 +25,7 @@ if [ "$1" = "S" ]; then       #Finding the sum
   exit
 
 elif [ "$1" = "P" ]; then   #Finding the product
-  echo "Finding product..."
+  #echo "Finding product..."
   prod=1
   shift
   for number in "$@"
@@ -42,7 +42,7 @@ elif [ "$1" = "P" ]; then   #Finding the product
   exit
 
 elif [ "$1" = "M" ]; then     #Finding the maximum
-  echo "Finding maximum..."
+  #echo "Finding maximum..."
   max=0
   shift
   while [ $# -gt 0 ]
@@ -62,7 +62,7 @@ elif [ "$1" = "M" ]; then     #Finding the maximum
   exit
 
 elif [ "$1" = "m" ]; then     #Finding the minimum
-  echo "Finding minimum..."
+  #echo "Finding minimum..."
   shift
   min=$1
   shift
