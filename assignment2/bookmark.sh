@@ -6,7 +6,7 @@ if [ "$1" = "-a" ]; then
     bookmarkname=$2
     bookmarklocation=$(pwd)     #Address of current directory
     echo "$bookmarkname|$bookmarklocation" >> $HOME/.bookmarks  #Add bookmark to the .bookmarks file
-    #declare "${bookmarkname}"=$bookmarklocation        #Save location of bookmark to the given name
+    declare "${bookmarkname}"=$bookmarklocation        #Declare bookmark variable
     echo "Successfully added bookmark to the ~/.bookmarks file."
     echo "Name of bookmark: $bookmarkname"
     echo "Bookmark locaktion: $bookmarklocation"
