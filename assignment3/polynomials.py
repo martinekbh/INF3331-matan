@@ -1,25 +1,25 @@
 class Polynomial:
 
-    def __init__(self, coefficients=[]):
-        """coefficients should be a list of numbers with 
+    def __init__(self, coeffs=[]):
+        """coeffs should be a list of numbers with 
         the i-th element being the coefficient a_i."""
 
-        if isinstance(coefficients, list): #Save coefficients as list
-            self.coefficients = coefficients
+        if isinstance(coeffs, list): #Save coefficients as list
+            self.coeffs = coeffs
 
-        elif isinstance(coefficients, int): #Save the given int as a single-entry list
-            self.coefficients = [coefficients]
+        elif isinstance(coeffs, int): #Save the given int as a single-entry list
+            self.coeffs = [coeffs]
 
         else: #Polynomial-class initiated with something that is not a list or an integer
             raise TypeError
 
         #Check for trailing zeros in list, and remove them
-        if len(self.coefficients) > 0:
-            extrazero = self.coefficients[-1]
+        if len(self.coeffs) > 0:
+            extrazero = self.coeffs[-1]
             while extrazero == 0:
-                self.coefficients.pop() #Remove trailing zeo in the list
-                if len(self.coefficients) > 0:
-                    extrazero = self.coefficients[-1]
+                self.coeffs.pop() #Remove trailing zeo in the list
+                if len(self.coeffs) > 0:
+                    extrazero = self.coeffs[-1]
                 else:
                     extrazero = -1 #Stop while-loop because list is empty
         
@@ -28,23 +28,23 @@ class Polynomial:
         """Return the index of the highest nonzero coefficient.
         If there is no nonzero coefficient, return -1."""
 
-        return len(self.coefficients)-1 #OK because trailing zeros in the list are removed in __init__
+        return len(self.coeffs)-1 #OK because trailing zeros in the list are removed in __init__
 
     def coefficients(self):
         """Return the list of coefficients. 
         The i-th element of the list should be a_i, meaning that the last 
         element of the list is the coefficient of the highest degree term."""
 
-        return self.coefficients
+        return self.coeffs
         
 
     def __call__(self, x):
         """Return the value of the polynomial evaluated at the number x"""
 
         polyvalue = 0
-        i = len(self.coefficients)-1 #Counter
+        i = len(self.coeffs)-1 #Counter
         while i >= 0:
-            polyvalue = polyvalue + self.coefficients[i]*(x**i)
+            polyvalue = polyvalue + self.coeffs[i]*(x**i)
             i-=1
         return polyvalue
 
@@ -56,8 +56,8 @@ class Polynomial:
 
         if isinstance(p, int): #If p is an integer
             if self.degree() > -1:
-                poly = Polynomial(self.coefficients)
-                poly.coefficients[0] = self.coefficients[0] + p
+                poly = Polynomial(self.coefficients())
+                poly.coeffs[0] = self.coeffs[0] + p
                 return poly
             else:
                 return Polynomial([p])
@@ -66,12 +66,12 @@ class Polynomial:
             polycoeffs = []
             i = 0 #Counter
             while i <= min(p.degree(), self.degree()):
-                polycoeffs.append(p.coefficients[i]+self.coefficients[i])
+                polycoeffs.append(p.coeffs[i]+self.coeffs[i])
                 i += 1
             if p.degree() < self.degree(): #If one has higher degree than the other, append the rest of that polynomial
-                polycoeffs.extend(self.coefficients[i:])
+                polycoeffs.extend(self.coeffs[i:])
             elif self.degree() < p.degree():
-                polycoeffs.extend(p.coefficients[i:])
+                polycoeffs.extend(p.coeffs[i:])
             return Polynomial(polycoeffs)
             
         else:
@@ -86,8 +86,8 @@ class Polynomial:
         If p is not an int or Polynomial, should raise ArithmeticError."""
         if isinstance(p, int): #If p is an integer
             if self.degree() > -1:
-                poly = Polynomial(self.coefficients)
-                poly.coefficients[0] = self.coefficients[0] - p
+                poly = Polynomial(self.coefficients())
+                poly.coeffs[0] = self.coeffs[0] - p
                 return poly
             else:
                 return Polynomial([-p])
@@ -95,19 +95,19 @@ class Polynomial:
         elif isinstance(p, Polynomial): #If p is a Polynomial
             polycoeffs = []
             if p.degree() <= self.degree(): #p has lower or equal degree to self
-                polycoeffs.extend(self.coefficients) #Let new polynomial have self.coefficients
+                polycoeffs.extend(self.coefficients()) #Let new polynomial have self.coefficients
                 i=0
                 while i <= p.degree():
-                    polycoeffs[i] = polycoeffs[i] - p.coefficients[i] #Subtract p.coefficients
+                    polycoeffs[i] = polycoeffs[i] - p.coeffs[i] #Subtract p.coeffs
                     i+=1
 
             else: #p has higher degree than self
                 i=0
                 while i <= self.degree():
-                    polycoeffs.append(self.coefficients[i] - p.coefficients[i]) #Subtract p from self
+                    polycoeffs.append(self.coeffs[i] - p.coeffs[i]) #Subtract p from self
                     i+=1
                 while i <= p.degree():
-                    polycoeffs.append(0 - p.coefficients[i]) #Subtract the rest of p
+                    polycoeffs.append(0 - p.coeffs[i]) #Subtract the rest of p
                     i+=1
 
             return Polynomial(polycoeffs)
@@ -123,7 +123,7 @@ class Polynomial:
 
         if isinstance(c, int): #If p is an integer
             poly = []
-            for n in self.coefficients:
+            for n in self.coeffs:
                 poly.append(n*c)
             return Polynomial(poly)
 
@@ -136,7 +136,7 @@ class Polynomial:
 
         if isinstance(c, int): #If c is an integer
             poly = []
-            for n in self.coefficients:
+            for n in self.coeffs:
                 poly.append(n*c)
             return Polynomial(poly)
 
@@ -153,30 +153,30 @@ class Polynomial:
         if power > 1: #Degree is 2 or more
 
             #Adding first part
-            if self.coefficients[power] == 1:
+            if self.coeffs[power] == 1:
                 poly = "x^" + str(power)
             else:
-                poly = str(self.coefficients[power]) + "x^" + str(power)
+                poly = str(self.coeffs[power]) + "x^" + str(power)
 
             #Adding middle parts
             power -= 1
             while power > 1:
-                if self.coefficients[power] == 1:
+                if self.coeffs[power] == 1:
                     poly = poly + " + " + "x^" + str(power)
                     power -= 1
-                elif self.coefficients[power] != 0:
-                    poly = poly + " + " + str(self.coefficients[power]) + "x^" + str(power)
+                elif self.coeffs[power] != 0:
+                    poly = poly + " + " + str(self.coeffs[power]) + "x^" + str(power)
                     power -= 1
                 else: #The coefficient is zero, so do nothing
                     power -= 1
 
             #Adding last part - power is now 1
-            if self.coefficients[power] == 1:
+            if self.coeffs[power] == 1:
                 poly = poly + " + x"
-            elif self.coefficients[power] != 0: 
-                poly = poly + " + " + str(self.coefficients[1]) + "x"
-            if self.coefficients[0] != 0:
-                poly = poly + " + " + str(self.coefficients[0])
+            elif self.coeffs[power] != 0: 
+                poly = poly + " + " + str(self.coeffs[1]) + "x"
+            if self.coeffs[0] != 0:
+                poly = poly + " + " + str(self.coeffs[0])
             return poly
 
 
@@ -185,14 +185,14 @@ class Polynomial:
             if self.coefiicients[power] == 1:
                 poly = "x"
             else: 
-                poly = str(self.coefficients[1]) + "x"
-            if self.coefficients[0] != 0:
-                poly = poly + " + " + str(self.coefficients[0])
+                poly = str(self.coeffs[1]) + "x"
+            if self.coeffs[0] != 0:
+                poly = poly + " + " + str(self.coeffs[0])
             return poly
 
         else:
             if power == 0: #Polynomial is just a number
-                return str(self.coefficients[0])
+                return str(self.coeffs[0])
             else:
                 return "" #Zero-polynomial.. unsure if best to return empty string or just "0"
 
@@ -200,16 +200,18 @@ class Polynomial:
     def __eq__(self, p):
         """Check if two polynomials have the same coefficients."""
         if p.degree() == self.degree(): #They must have the same degree
-            if len(p.coefficients) <= len(self.coefficients): #self.coefficients has zeros at the end, or they have same length
+            #I wrote this method before i implemented the removal of trailing zeros in the __init__ method.
+            #I will let it be like it is, however, as 1) it doesn't matter and 2) it shows what i did before having automatic removal of trailing zeros.
+            if len(p.coeffs) <= len(self.coeffs): #self.coeffs has zeros at the end, or they have same length
                 i = 0
-                while i < len(p.coefficients):
-                    if p.coefficients[i] != self.coefficients[i]:
+                while i < len(p.coeffs):
+                    if p.coeffs[i] != self.coeffs[i]:
                         return False #Found inequality
                     i += 1
-            elif len(self.coefficients) < len(p.coefficients): #p.coefficients has zeros at the end
+            elif len(self.coeffs) < len(p.coeffs): #p.coeffs has zeros at the end
                 i = 0
-                while i < len(self.coefficients):
-                    if p.coefficients[i] != self.coefficients[i]:
+                while i < len(self.coeffs):
+                    if p.coeffs[i] != self.coeffs[i]:
                         return False #Found inequality
                     i += 1
             return True #If function has not returned false yet, the polynomials are equal
