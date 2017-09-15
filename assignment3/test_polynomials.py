@@ -7,7 +7,7 @@ def test_check_points():
     assert p(1) == 4
     assert p(50) == 2601
     #One more, why not?
-    q = Polynomial() #Zero-polynomial
+    q = Polynomial(0) #Zero-polynomial
     assert q(0) == 0
     assert q(100) == 0
     assert q(0.5) == 0
@@ -26,6 +26,7 @@ def test_add_polynomials():
     #Testing addition of integers..
     assert p+0 == p
     assert q+5 == Polynomial([10, 3, 0, 1])
+    assert p+Polynomial(5) == Polynomial([6, 2, 1])
     print("test_add_polynomials() finished successfully.")
     
 #Subtracting two polynomials
@@ -56,8 +57,42 @@ def test_degree():
     assert d.degree() == 2
     assert z.degree() == -1
     print("test_degree() finished successfully.")
+
+#ADDING SOME MORE TESTS FOR THE OTHER FUNCTIONS IN Polynomial
+
+#Test repr
+def test_repr():
+    a = Polynomial([1, 2, 1]) #The polynomial x**2 + 2x + 1
+    b = Polynomial([5, 3, 0, 1]) #The polynomial x**3 + 3x + 5
+    c = Polynomial([3, 1, 0, 0, 2]) #The polynomial 2x**4 + x + 3
+    d = Polynomial([1, 0, 1, 0]) #The polynomial x**2 + 1
+    z = Polynomial([]) #The zero-polynomial
+    assert str(a) == "x^2 + 2x + 1"
+    assert str(b) == "x^3 + 3x + 5"
+    assert str(c) == "2x^4 + x + 3"
+    assert str(d) == "x^2 + 1"
+    assert str(z) == ""
+    print("test_repr() finished sucessfully.")
+
+
+#Test multiplication by an integer
+def test_mul():
+    a = Polynomial([1, 2, 1]) #The polynomial x**2 + 2x + 1
+    b = Polynomial([5, 3, 0, 1]) #The polynomial x**3 + 3x + 5
+    c = Polynomial([3, 1, 0, 0, 2]) #The polynomial 2x**4 + x + 3
+    assert a*3 == Polynomial([3, 6, 3])
+    assert 3*a == Polynomial([3, 6, 3]) #rmul
+    assert b*0 == Polynomial()
+    assert c*50 == Polynomial([150, 50, 0, 0, 100])
+    assert 50*c == Polynomial([150, 50, 0, 0, 100]) #rmul
+    print("test_mul() finished sucessfully.")
  
+
+
 test_check_points()
 test_add_polynomials()
 test_sub_polynomials()
 test_degree()
+test_repr()
+test_mul()
+

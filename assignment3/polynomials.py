@@ -4,28 +4,39 @@ class Polynomial:
         """coefficients should be a list of numbers with 
         the i-th element being the coefficient a_i."""
 
-        self.coefficients = coefficients
+        if isinstance(coefficients, list): #Save coefficients as list
+            self.coefficients = coefficients
+
+        elif isinstance(coefficients, int): #Save the given int as a single-entry list
+            self.coefficients = [coefficients]
+
+        else: #Polynomial-class initiated with something that is not a list or an integer
+            raise TypeError
+
+        #Check for trailing zeros in list, and remove them
+        if len(self.coefficients) > 0:
+            extrazero = self.coefficients[-1]
+            while extrazero == 0:
+                self.coefficients.pop() #Remove trailing zeo in the list
+                if len(self.coefficients) > 0:
+                    extrazero = self.coefficients[-1]
+                else:
+                    extrazero = -1 #Stop while-loop because list is empty
         
 
     def degree(self):
         """Return the index of the highest nonzero coefficient.
         If there is no nonzero coefficient, return -1."""
 
-        i = len(self.coefficients)-1
-        while i >= 0:
-            if self.coefficients[i] != 0:
-                return i
-            i -= 1
-        return -1 #Zero-polynomial
-
+        return len(self.coefficients)-1 #OK because trailing zeros in the list are removed in __init__
 
     def coefficients(self):
         """Return the list of coefficients. 
-
         The i-th element of the list should be a_i, meaning that the last 
         element of the list is the coefficient of the highest degree term."""
+
+        return self.coefficients
         
-        raise NotImplemented
 
     def __call__(self, x):
         """Return the value of the polynomial evaluated at the number x"""
@@ -44,18 +55,14 @@ class Polynomial:
         If p is not an int or Polynomial, should raise ArithmeticError."""
 
         if isinstance(p, int): #If p is an integer
-            #print(p, " is an integer\n")
             if self.degree() > -1:
                 poly = Polynomial(self.coefficients)
                 poly.coefficients[0] = self.coefficients[0] + p
-                #print("p1: ", self.coefficients, ", p: ", p, ", p1+p2: ", poly.coefficients)
                 return poly
             else:
-                #print("p1: ", self.coefficients, ", p: ", p, ", p1+p2: ", poly.coefficients)
                 return Polynomial([p])
 
         elif isinstance(p, Polynomial): #If p is a Polynomial
-            #print(p.coefficients, " is a Polynomial\n")
             polycoeffs = []
             i = 0 #Counter
             while i <= min(p.degree(), self.degree()):
@@ -65,12 +72,11 @@ class Polynomial:
                 polycoeffs.extend(self.coefficients[i:])
             elif self.degree() < p.degree():
                 polycoeffs.extend(p.coefficients[i:])
-            #print("p1: ", self.coefficients, ", p2: ", p.coefficients, ", p1+p2: ", polycoeffs)
             return Polynomial(polycoeffs)
             
         else:
             print(p, " is neither an integer nor a Polynomial")
-            raise ArithmeticError
+            raise ArithmeticError("Cannot add polynomial with object that is not an integer or a Polynomial")
 
         
     def __sub__(self, p):
@@ -79,18 +85,14 @@ class Polynomial:
 
         If p is not an int or Polynomial, should raise ArithmeticError."""
         if isinstance(p, int): #If p is an integer
-            #print(p, " is an integer\n")
             if self.degree() > -1:
                 poly = Polynomial(self.coefficients)
                 poly.coefficients[0] = self.coefficients[0] - p
-                #print("p1: ", self.coefficients, ", p: ", p, ", p1+p2: ", poly.coefficients)
                 return poly
             else:
-                #print("p1: ", self.coefficients, ", p: ", p, ", p1+p2: ", poly.coefficients)
                 return Polynomial([-p])
 
         elif isinstance(p, Polynomial): #If p is a Polynomial
-            #print(p.coefficients, " is a Polynomial\n")
             polycoeffs = []
             if p.degree() <= self.degree(): #p has lower or equal degree to self
                 polycoeffs.extend(self.coefficients) #Let new polynomial have self.coefficients
@@ -98,7 +100,6 @@ class Polynomial:
                 while i <= p.degree():
                     polycoeffs[i] = polycoeffs[i] - p.coefficients[i] #Subtract p.coefficients
                     i+=1
-                #print("p1: ", self.coefficients, ", p2: ", p.coefficients, ", p1-p2: ", polycoeffs)
 
             else: #p has higher degree than self
                 i=0
@@ -108,45 +109,93 @@ class Polynomial:
                 while i <= p.degree():
                     polycoeffs.append(0 - p.coefficients[i]) #Subtract the rest of p
                     i+=1
-                #print("p1: ", self.coefficients, ", p2: ", p.coefficients, ", p1-p2: ", polycoeffs)
 
             return Polynomial(polycoeffs)
 
         else:
             print(p, " is neither an integer nor a Polynomial")
-            raise ArithmeticError
-
- 
+            raise ArithmeticError("Cannot subtract object that is not an integer or a Polynomial from a Polynomial")
 
 
     def __mul__(self, c):
         """Return the polynomial which is this polynomial multiplied by given integer.
         Should raise ArithmeticError if c is not an int."""
 
-        if isinstance(p, int): #If p is an integer
-            pcoefficients = []
+        if isinstance(c, int): #If p is an integer
+            poly = []
             for n in self.coefficients:
-                pcoefficients.append(n*p)
-            return Polynomial(pcoefficients)
+                poly.append(n*c)
+            return Polynomial(poly)
 
         else:
-            raise ArithmeticError #p is not an int
-
-
-        raise NotImplemented
+            raise ArithmeticError("Cannot multiply polynomial with a non-integer object") #c is not an int
 
 
     def __rmul__(self, c):
         """Return the polynomial which is this polynomial multiplied by some integer"""
 
-        raise NotImplemented
+        if isinstance(c, int): #If c is an integer
+            poly = []
+            for n in self.coefficients:
+                poly.append(n*c)
+            return Polynomial(poly)
+
+        else:
+            raise ArithmeticError("Cannot multiply polynomial with a non-integer object") #c is not an int
+
     
     def __repr__(self):
         """Return a nice string representation of polynomial.
-        
         E.g.: x^6 - 5x^3 + 2x^2 + x - 1
         """
-        raise NotImplemented
+
+        power = self.degree()
+        if power > 1: #Degree is 2 or more
+
+            #Adding first part
+            if self.coefficients[power] == 1:
+                poly = "x^" + str(power)
+            else:
+                poly = str(self.coefficients[power]) + "x^" + str(power)
+
+            #Adding middle parts
+            power -= 1
+            while power > 1:
+                if self.coefficients[power] == 1:
+                    poly = poly + " + " + "x^" + str(power)
+                    power -= 1
+                elif self.coefficients[power] != 0:
+                    poly = poly + " + " + str(self.coefficients[power]) + "x^" + str(power)
+                    power -= 1
+                else: #The coefficient is zero, so do nothing
+                    power -= 1
+
+            #Adding last part - power is now 1
+            if self.coefficients[power] == 1:
+                poly = poly + " + x"
+            elif self.coefficients[power] != 0: 
+                poly = poly + " + " + str(self.coefficients[1]) + "x"
+            if self.coefficients[0] != 0:
+                poly = poly + " + " + str(self.coefficients[0])
+            return poly
+
+
+
+        elif power == 1:
+            if self.coefiicients[power] == 1:
+                poly = "x"
+            else: 
+                poly = str(self.coefficients[1]) + "x"
+            if self.coefficients[0] != 0:
+                poly = poly + " + " + str(self.coefficients[0])
+            return poly
+
+        else:
+            if power == 0: #Polynomial is just a number
+                return str(self.coefficients[0])
+            else:
+                return "" #Zero-polynomial.. unsure if best to return empty string or just "0"
+
 
     def __eq__(self, p):
         """Check if two polynomials have the same coefficients."""
