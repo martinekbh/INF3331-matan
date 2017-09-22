@@ -9,6 +9,11 @@ f1 = vectorize(f1)
 
 def f2(x):  #Linear function
     return x*2.0
+
+"""
+NOTE: I tested the integration method for an error of 1E-10 instead
+of 1E-20. Why was so high accuracy needed? Takes forever with high N
+"""
     
 
 #TEST integrate

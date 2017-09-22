@@ -1,0 +1,15 @@
+Exercise 4.6 said to name this file "report4.txt", but i assumed this was a
+typo.
+Below is the output of integrator_comparison.py.
+
+
+N needs to be at least 90700 to have an error less than 10^(-10)
+when integrating with midpoint_integrate
+N needs to be at least 128300 to have an error less than 10^(-10)
+when integrating with numpy_midpoint_integrate
+I = 2.000000
+N needs to be at least 128300 to have an error less than 10^(-10)
+when integrating with numba_midpoint_integrate
+I = 2.000000
+
+

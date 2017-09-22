@@ -69,6 +69,7 @@ numba_integr.append(runtime)
 print("numba_integrate() took %s seconds to integrate x^3 from 0 to 1 with N=100000000" % (runtime))
 
 N_values = [6, 7, 8]
+plt.gcf().clear() #Clear any previous plots
 plt.plot(N_values, integr, "go")
 plt.plot(N_values, numpy_integr, "ro")
 plt.plot(N_values, numba_integr, "bo")

@@ -1,6 +1,6 @@
 I wrote a separate program to test the runtime of integrate and
 numpy_integrate. The program is called integrating_time.py. I assumed it would
-be OK to write a separate program for this, and include it in the assignment
+be OK to write a separate program for this, and have included it in the assignment
 "hand in". 
 
 Below is the output of the program:

@@ -1,1 +1,8 @@
-REMEMBER TO FILL IN THIS!
+I updated the file integrating_time.py to also asses the numba_integrate
+method, and plot the results of using the different integration methods on
+f=x^3 with three different N-values (10^6, 10^7, and 10^8). The plot is saved as
+Runtime_integration.png.
+
+As evidenced from the plot, numba doesn't seem to perform that mush quicker
+than numpy, which is an unexpected result. I am unsure if implemented numba
+correctly..
