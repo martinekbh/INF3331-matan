@@ -1,33 +1,27 @@
 I wrote a separate program to test the runtime of integrate and
-numpy_integrate. The program is called integrating_time.py. I assumed it would
-be OK to write a separate program for this, and have included it in the assignment
-"hand in". 
-
+numpy_integrate, called testing.py. I assumed it would be OK to write a separate program
+for this, and have included it in the assignment "hand in". 
 Below is the output of the program:
 
-C:\Users\marti\Documents\uio-emner\uio-inf3331\INF3331-matan\assignment4>python integrating_time.py
-integrate() took 0.0309998989105 seconds to integrate x^3 from 0 to 1 with N=100000
-numpy_integrate() took 0.0160000324249 seconds to integrate x^3 from 0 to 1 with N=100000
-integrate() took 0.390000104904 seconds to integrate x^3 from 0 to 1 with N=1000000
-numpy_integrate() took 0.0939998626709 seconds to integrate x^3 from 0 to 1 with N=1000000
-integrate() took 4.02200007439 seconds to integrate x^3 from 0 to 1 with N=10000000
-numpy_integrate() took 0.875 seconds to integrate x^3 from 0 to 1 with N=10000000
-integrate() took 0.125 seconds to integrate exp(x) from 0 to 1 with N=100000
-numpy_integrate() took 0.0 seconds to integrate exp(x) from 0 to 1 with N=100000
-integrate() took 1.15700006485 seconds to integrate exp(x) from 0 to 1 with N=1000000
-numpy_integrate() took 0.0309998989105 seconds to integrate exp(x) from 0 to 1 with N=1000000
-integrate() took 11.4700000286 seconds to integrate exp(x) from 0 to 1 with N=10000000
-numpy_integrate() took 0.25 seconds to integrate exp(x) from 0 to 1 with N=10000000
+(py36) C:\Users\marti\Documents\uio-emner\uio-inf3331\INF3331-matan\assignment4>python testing.py
+Integrate for N =  10000 :  0.020965709184477238
+Numpy for N =  10000 :  0.00033025586829806
+Integrate for N =  100000 :  0.20758571062857745
+Numpy for N =  100000 :  0.003983993462164603
+Integrate for N =  1000000 :  2.108165976343013
+Numpy for N =  1000000 :  0.07193054862679205
+Integrate for N =  10000000 :  21.287945373628105
+Numpy for N =  10000000 :  0.7480869774982892
 
-The program records the time it takes for the two integration methods to
-integrate two functions (x^3 and exp(x)) for N = 10^5, 10^6, and 10^7
+
+The script tests the runtime of integrating x^2, using timeit.repeat with
+repeat=5 and number=5, for N = 10^4, 10^5, 10^6 and 10^7.
 
 We clearly see that the time-difference between integrate and numpy_integrate
-has a huge increase as N gets larger. For example for the function x^3 we see
-that when N=10^5, the difference is only ~0.015s, however when N=10^7 the
-difference is already ~3.15s. As for the function exp(x), the difference is
-~11.22 when N=10^7 (note that this is the numpy.exp function)
+has a huge increase as N gets larger. When N=10^4, the difference is only 
+~0.021s, however when N=10^7 the difference is already ~20.540s.
 
 A quick look at the numbers reveal that integrate has a runtime that is
 about linear (note how the runtime is multiplied by 10 as N is multiplied by
 10). In comparison, the runtime of numpy_integrate increases much slower as N increases.
+

@@ -1,4 +1,0 @@
-from test_integrator import test_integral_of_constant_function, test_integral_of_linear_function, test_numpy_integrate_constant_function, test_numpy_integrate_linear_function, test_numba_integrate_constant_function, test_numba_integrate_linear_function
-
-
-

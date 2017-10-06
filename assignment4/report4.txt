@@ -3,6 +3,44 @@ method, and plot the results of using the different integration methods on
 f=x^3 with three different N-values (10^6, 10^7, and 10^8). The plot is saved as
 Runtime_integration.png.
 
-As evidenced from the plot, numba doesn't seem to perform that mush quicker
+As evidenced from the plot, numba doesn't seem to perform that much quicker
 than numpy, which is an unexpected result. I am unsure if implemented numba
 correctly..
+
+OLD STUFF ABOVE!
+
+I updated the script testing.py to also assess the numba_integrate method.
+The script tests the runtime of integrating x^2, using timeit.repeat with
+repeat=5 and number=5. The output was:
+
+(py36) C:\Users\marti\Documents\uio-emner\uio-inf3331\INF3331-matan\assignment4>python testing.py
+Integrate for N =  1000000 :  2.0931485650895345
+Numpy for N =  1000000 :  0.07012665415113162
+Numba for N =  1000000 :  0.3621926364018273
+Integrate for N =  10000000 :  21.01557166675419
+Numpy for N =  10000000 :  0.7422707819146139
+Numba for N =  10000000 :  0.42246822979572585
+Integrate for N =  100000000 :  214.76803443194342
+Numpy for N =  100000000 :  7.578457307146984
+Numba for N =  100000000 :  1.0935932823084613
+
+As we can clearly see, the normal integration method (using normal python) is
+slowest, and increases linearly as N grows. For N=10^6, the numpy integration
+method seems a little bit faster than the numba method, however when N=10^7
+numba is faster than numpy. When N=10^7 we see that numba is more than 7 times
+quicker than numpy. Clearly, numba works best for very high values of N.
+
+Another advantage of using numba instead of numpy is that is is easier to
+change code that is already written using normal python to work faster.
+Instead og rewriting the algorithm so it is vectorised (numpy), one can just add a few
+lines to make it work a lot faster (numba).
+
+I was unable to make numba_integrate and numba_midpoint_integrate work when the
+function sent as a variable into the integration method had been vectorized
+with numpy.vectorize. Numba error messages turn out to be hard to make sense
+of...
+This is not a problem - the numba integration-methods work just fine, even
+when f is a constant function. However, the integrate and numpy.integrate
+methods expect the function to be vectorized when is is a constant function,
+i.e. f(x)=2. So the numba_integrate method is not consistent with the others
+in that it fails whenever the function f is vectorized. 

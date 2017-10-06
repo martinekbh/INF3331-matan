@@ -3,13 +3,30 @@ typo.
 Below is the output of integrator_comparison.py.
 
 
-N needs to be at least 90700 to have an error less than 10^(-10)
+(py36) C:\Users\marti\Documents\uio-emner\uio-inf3331\INF3331-matan\assignment4>python integrator_comparison.py
+N needs to be 128300 or higher to have an error less than 10^(-10)
+when integrating with integrate
+N needs to be 90700 or higher to have an error less than 10^(-10)
 when integrating with midpoint_integrate
-N needs to be at least 128300 to have an error less than 10^(-10)
+N needs to be 128300 or higher to have an error less than 10^(-10)
+when integrating with numpy_integrate
+N needs to be 90700 or higher to have an error less than 10^(-10)
 when integrating with numpy_midpoint_integrate
-I = 2.000000
-N needs to be at least 128300 to have an error less than 10^(-10)
+N needs to be 128300 or higher to have an error less than 10^(-10)
+when integrating with numba_integrate
+N needs to be 90700 or higher to have an error less than 10^(-10)
 when integrating with numba_midpoint_integrate
-I = 2.000000
 
 
+We see that the *_integrate methods require N=128300 for the error to be less
+than the required 10^(-10). The *_midpoint_integrate methods only need
+N=90700. Note that these N values are not exact - the exercise didn't specify
+that I had to find the *lowest* required N s.t. the error was less than
+10^(-10). The method I used to find N in integrator_comparison.py is very
+simple - for each integration method i ran a for loop that tested if the
+result was exact for N=100, 200, 300, ... (until 10^10 in which case the loop
+would stop and report it didn't find any large enough N. If N needed to be
+grater that 10^10, the program would take a very long time to run) until a
+large enough N was found. So the N-values found here (128300 and 90700) are
+likely larger than the smallest N that would satisfy error < 10^(-10), but not
+so much that it matters (the difference is at most 99)
