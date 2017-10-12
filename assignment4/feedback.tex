@@ -1,0 +1,90 @@
+\documentclass[a4paper]{article}
+
+% Import some useful packages
+\usepackage[margin=0.5in]{geometry} % narrow margins
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.95}
+
+\title{Peer-review of assignment 4 for \textit{INF3331-matan}}
+\author{Reviewer 1, sebastps, {sebastps@student.matnat.uio.no} \\
+ 		Reviewer 2, andernev, {andernev@student.matnat.uio.no} \\
+        We are one reviewer less, so we corrected one assignment less}
+\begin{document}
+\maketitle
+
+\section{Review \emph{}}\label{sec:review}
+
+Python 3.6.1 on macOS Sierra(version 10.12.6) is used for the review.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{General feedback}
+
+This is a very good solution, well documented and everything we have tested is working. Very detailed and informative reports. Everything is easy to read, with good function names etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.1}
+
+The tests have meaningful names, and is working as expected.
+All the tests starter with test\_.
+The code is very easy to read and also written in a pythonic way. No unnecessarily complicated parts.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.2} \label{sec:assignment5.2}
+
+Working as expected and documentation where its needed.
+Easy to read aswell.
+
+\begin{minted}[bgcolor=LightGray, linenos, fontsize=\footnotesize]{python}
+def integrate(f, a, b, N):
+    """
+    Integration method that does not use any python modules (numpy)
+    """
+    n = (b-a)/float(N) #Interval length
+    I = 0.0 # Will be value of integrated function
+    m = 0 # Counter
+    for i in range(1, int(N)):
+        m += 1
+        I += f(a + i*n)*n
+    I += f(b)*n
+    return I
+\end{minted}
+
+The only thing i see is that the "m" counter here is not doing anything
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.3}
+
+Working as expected and documentation where its needed.
+Easy to read.
+Numpy is used effectively. (Use of vectorization)
+Good informative report
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.4}
+
+Working as expected and documentation where its needed.
+Easy to read. Good informative report. Good that you included the part about vectorized functions not working in numba.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.6}
+
+Working as expected and documentation where its needed.
+Easy to read. Good and informative report.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.7}
+Packaging is done correctly
+
+\subsection*{Assignment 4.8}
+Bonus contest not done.
+
+\bibliographystyle{plain}
+\bibliography{literature}
+
+\end{document}
