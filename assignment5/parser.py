@@ -82,7 +82,7 @@ sample_input = r"""
     >>QUOTELINEThis is a quote. -matan
     Text text text text. [wp:Jacob Bernoulli]. 
     [wp:Alpine Skiing]
-    Picture: <calvin-and-hobbes.jpg>(w=600,h=189)
+    Picture: <calvin-and-hobbes.jpg>(w=360,h=394)
     """
 
 #RUN THIS TO TEST SAMPLE ABOVE

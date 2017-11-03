@@ -45,7 +45,6 @@ def find_emails(text):
     return emails
 
 def all_the_emails(url, depth):
-    print(depth)
 
     url_req = urlopen(url)
     url_read = url_req.read()
@@ -55,9 +54,8 @@ def all_the_emails(url, depth):
     #print(emails)
 
     if depth > 0:
-        print("Going to next depth")
         urls = find_urls(html_string)
-        print(urls)
+        #print(urls)
         for link in urls:
             new_emails = all_the_emails(link, depth-1)
             for new_email in new_emails:
