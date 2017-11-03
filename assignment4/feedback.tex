@@ -1,0 +1,135 @@
+\documentclass[a4paper]{article}
+
+% Import some useful packages
+\usepackage[margin=0.5in]{geometry} % narrow margins
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.95}
+
+\title{Peer-review of assignment 4 for \textit{INF3331-matan}}
+\author{Reviewer 1, sebastps, {sebastps@student.matnat.uio.no} \\
+ 		Reviewer 2, andernev, {andernev@student.matnat.uio.no} \\
+<<<<<<< HEAD
+        Reviewer 3, steinavp, {steinavp@student.matnat.uio.no}}
+=======
+        We are one reviewer less, so we corrected one assignment less}
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+\begin{document}
+\maketitle
+
+\section{Review \emph{}}\label{sec:review}
+
+<<<<<<< HEAD
+Code tested with
+\begin{itemize}
+	\item Python 3.6.1 on macOS Sierra(version 10.12.6)
+    \item Python 3.5.2 on Ubuntu Ubuntu 16.04.2 LTS
+\end{itemize}
+=======
+Python 3.6.1 on macOS Sierra(version 10.12.6) is used for the review.
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{General feedback}
+
+<<<<<<< HEAD
+This is a very good solution, well documented and everything we have tested is working. Very detailed and informative reports. Everything is easy to read, with good function names etc. 
+=======
+This is a very good solution, well documented and everything we have tested is working. Very detailed and informative reports. Everything is easy to read, with good function names etc.
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.1}
+
+<<<<<<< HEAD
+All is working as expected, and the tests have meaningful names, all starting with test\_.
+The code is very easy to read and also written in a pythonic way. No unnecessarily complicated parts. The usage of error threshold 10E-10 that you commented about is fine. The original assignment test had, as mentioned on Piazza by instructor, a bit too strict suggested threshold.
+=======
+The tests have meaningful names, and is working as expected.
+All the tests starter with test\_.
+The code is very easy to read and also written in a pythonic way. No unnecessarily complicated parts.
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.2} \label{sec:assignment5.2}
+
+<<<<<<< HEAD
+Working as expected, passes test. Nice that you both use python docstring as well as comments.
+Easy enough to read, but you could use more descriptive variable names; "integral" instead of "I". Good plot.
+=======
+Working as expected and documentation where its needed.
+Easy to read aswell.
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+\begin{minted}[bgcolor=LightGray, linenos, fontsize=\footnotesize]{python}
+def integrate(f, a, b, N):
+    """
+    Integration method that does not use any python modules (numpy)
+    """
+    n = (b-a)/float(N) #Interval length
+    I = 0.0 # Will be value of integrated function
+    m = 0 # Counter
+    for i in range(1, int(N)):
+        m += 1
+        I += f(a + i*n)*n
+    I += f(b)*n
+    return I
+\end{minted}
+
+<<<<<<< HEAD
+The only thing i see is that the "m" counter here is not doing anything.
+=======
+The only thing i see is that the "m" counter here is not doing anything
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.3}
+
+Working as expected and documentation where its needed.
+<<<<<<< HEAD
+Program is easy to read.
+Numpy vectorization is used effectively.
+Good report with informative explanations.
+Nice that you made a dedicated testing.py program.
+=======
+Easy to read.
+Numpy is used effectively. (Use of vectorization)
+Good informative report
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.4}
+
+Working as expected and documentation where its needed.
+<<<<<<< HEAD
+Easy to read. Again a well written report with elaborate explanations. Good that you explained that vectorized functions don't work in numba. In regards to numba performance: Numba loses some initial lead by having to compile methods before they are ran, which are then ready the next time.
+=======
+Easy to read. Good informative report. Good that you included the part about vectorized functions not working in numba.
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.6}
+
+Working as expected and documentation where its needed.
+<<<<<<< HEAD
+Well explained report, also good that you comment on the accuracy of your N values.
+=======
+Easy to read. Good and informative report.
+>>>>>>> 8250257ad3c9f7eec78553fc8fd7ae74d4753e3b
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Assignment 4.7}
+Packaging is done correctly
+
+\subsection*{Assignment 4.8}
+Bonus contest not done.
+
+\bibliographystyle{plain}
+\bibliography{literature}
+
+\end{document}
