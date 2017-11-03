@@ -1,24 +1,33 @@
-# -*- coding: utf-8 -*-:w
 import re
-from urllib import urlopen
+from urllib.request import urlopen
 
 def find_urls(text):
     """
     Looks for and returns urls from a string of HTML.
-    A url is here assumed to be of the form 
+    A url is here assumed to be of the form
         <a href="PROTOCOL://www.HOST.DOMAIN/PATH"></a>
     where PROTOCOL is either http or https, HOST and DOMAIN consists of [a-zA-z0-9~.-] chars,
-    and PATH consists of [a-zA-z0-9~./-] chars. The "www" part of the url is optional, so the
+    and PATH consists of [a-zA-z0-9~./-@] chars. The "www" part of the url is optional, so the
     search-function does not specify that this has to be in the url (if it is, it will be part
     of the HOST string). HOST and DOMAIN have to be at least one char long, while PATH can be
     empty.
     """
 
-    #For "" quotations
-    urls = re.findall(r"<a href=\"(https?://[a-zA-z0-9~.-]+.[a-zA-z0-9~.-]+/[a-zA-z0-9~./-]*)\">.*</a>", text)
-    #For '' quotations
-    urls = urls + re.findall(r"<a href=\'(https?://[a-zA-z0-9~.-]+.[a-zA-z0-9~.-]+/[a-zA-z0-9~./-]*)\'>.*</a>", text)
+    #<a href="https://demo.lucidtech.io" class="btn
+    #                           hidden-xs"><span>Request Demo</span></a>
 
+    #<li><a href="https://medium.com/@Lucidtech">Blog</a></li>
+    #<a href="http://innovasjonnorge.no/en/start-page">
+
+    #For "" quotations
+    regex = re.compile(r"<a href=\"(https?://[a-zA-z0-9~.-]+.[a-zA-z0-9~.-]+/?[a-zA-z0-9~./-@]*)\"", re.MULTILINE)
+    urls = re.findall(regex, text)
+    #urls = re.findall(r"<a href=\"(https?://[a-zA-z0-9~.-]+.[a-zA-z0-9~.-]+/?[a-zA-z0-9~./-]*)\".*</a>", text)
+
+    #For '' quotations
+    regex2 = re.compile(r"<a href=\'(https?://[a-zA-z0-9~.-]+.[a-zA-z0-9~.-]+/?[a-zA-z0-9~./-@]*)'", re.MULTILINE)
+    #urls = urls + re.findall(r"<a href=\'(https?://[a-zA-z0-9~.-]+.[a-zA-z0-9~.-]+/?[a-zA-z0-9~./-]*)'.*</a>", text)
+    urls = urls + re.findall(regex2, text)
 
     return urls
 
@@ -26,29 +35,42 @@ def find_emails(text):
     """
     Looks for and returns what most likely is email addresses in a (long) string.
     An email-like substring is of the form NAME@SERVER.DOMAIN.
-    NAME and SERVER can consist of [a-zA-z0-9#$%&~’\*+-/=?_‘|{}.]
+    NAME and SERVER can consist of [a-zA-z0-9#$%&~'\*+-/=?_|{}.]
     DOMAIN can only consist of alphabetical characters and '.', i.e. [a-zA-Z.], but the first and last
     characters have to be alphabetical. It is (logically) assumed that the DOMAIN name cannot be
     shorter than two characters.
     """
 
-    emails = re.findall(r"[a-zA-z0-9#$%&~’\*+-/=?_‘|{}.]+@[a-zA-z0-9#$%&~’\*+-/=?_‘|{}.]+\.[a-zA-Z][a-zA-z.]*[a-zA-Z]+", text)
+    emails = re.findall(r"[a-zA-z0-9#$%&~'\*+-/=?_|{}.]+@[a-zA-z0-9#$%&~'*+-/=?_|{}.]+\.[a-zA-Z][a-zA-z.]*[a-zA-Z]+", text)
     return emails
 
 def all_the_emails(url, depth):
-    #website = urllib2.urlopen(url)
+    print(depth)
 
     url_req = urlopen(url)
     url_read = url_req.read()
-    string = url_read.decode("utf8")
+    html_string = url_read.decode("utf8")
+    #print(html_string)
+
+    emails = find_emails(html_string)
+    print(emails)
+
+    if depth > 0:
+        print("Going to next depth")
+        urls = find_urls(html_string)
+        print(urls)
+        for link in urls:
+            new_emails = all_the_emails(link, depth-1)
+            for new_email in new_emails:
+                emails.add(new_email) #To not add same email twice
+        depth-=1
+
     url_req.close()
-    
-    print(string)
-    return
+    return emails
 
 
 
-depth = 5 #Number of times all_the_emails will call itself
+depth = 3 #Number of times all_the_emails will call itself
 url = "https://lucidtech.io/"
 all_the_emails(url, depth)
 
@@ -66,7 +88,7 @@ sample_inputs = [
     """,
     """
     Here is an email:simon@funke.no. It's probably not going to work.
-    You could try funsim@uio.no, but I don't think that's the right one either. 
+    You could try funsim@uio.no, but I don't think that's the right one either.
     """,
     """
     This is a bit of html:
@@ -74,15 +96,15 @@ sample_inputs = [
 	  <a href="http://www.mn.uio.no/ifi/personer/vit/karleh/index.html">Norwegian<span class="offscreen-screenreader"> version of this page</span></a>
 	</span>
 
-        
-          
+
+
             <div class="vrtx-person-contact-info-line vrtx-email"><span class="vrtx-label">Email</span>
-              
+
                 <a class="vrtx-value" href="mailto:karleh@ifi.uio.no">karleh@ifi.uio.no</a>
-              
+
             </div>
     """,
-    """This is text which contains some email-like strings which aren't emails 
+    """This is text which contains some email-like strings which aren't emails
     according to the definition of the assignment:
     the string name@server.1o has a number at the start of thedomain,
     the string name@server.o1 has a number at the end,
@@ -102,7 +124,7 @@ expected_outputs = [
     ["simon@funke.no", "funsim@uio.no"],
     ["karleh@ifi.uio.no", "karleh@ifi.uio.no"],
     ["na&me@domain.com", "n~ame@dom_ain.com", "name@domain.c_o.uk"]
-    
+
 ]
 
 """
@@ -121,22 +143,24 @@ sample_inputs = [
 	  <a href="http://www.mn.uio.no/ifi/personer/vit/karleh/index.html">Norwegian<span class="offscreen-screenreader"> version of this page</span></a>
 	</span>
 
-        
-          
+
+
             <div class="vrtx-person-contact-info-line vrtx-email"><span class="vrtx-label">Email</span>
-              
+
                 <a class="vrtx-value" href="mailto:karleh@ifi.uio.no">karleh@ifi.uio.no</a>
-              
+
             </div>
 
     This URL is not inside a hyperlink tag, so should be ignored: "http://www.google.com"
 
     <a href="http://mn.uio.no/ifi/personer/vit/karleh/index.html"></a>
     <a href="https://mn.uio.no/ifi/personer/vit/karleh/index.html"></a>
-    <a href="http://www.google.no/"></a>
-    <a href='http://www.doorway.no/'></a>
+    <a href="http://www.google.no"></a>
+    <a href="https://demo.lucidtech.io" class="btn
+                                hidden-xs"><span>Request Demo</span></a>
+    <a href='http://doorway.no'></a>
     """,
-    
+
     """
     This is almost a hyperlink, but the quotes are mismatched, so it shouldn't be captured:
 
@@ -144,20 +168,23 @@ sample_inputs = [
 
     <a href="http://www.google.com/super_secret/user_data/'>Please don't click</a>
 
+    <a href="https://demo.lucidtech.io" class="btn
+                                hidden-xs"><span>Request Demo</span></a>
+    <li><a href="https://medium.com/@Lucidtech">Blog</a></li>
 
-    
+
     """,
 
-    
+
 ]
 
 expected_outputs = [
     [
         "http://www.mn.uio.no/ifi/personer/vit/karleh/index.html",
     ],
-    
+
     []
-    
+
 ]
 
 """
