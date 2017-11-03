@@ -1,0 +1,7 @@
+As can be seen, i didn't get to finish exercise 5.5 completely.
+While the idea of the all_the_emails function is written down, unexpected
+changes had to be made to the other functions (find_urls and find_emails)
+for different reasons. One is that the re.findall searches were too strict on
+the form the urls and emails are supposed to have in HTML. For example did the
+searches not account for newlines in between <a and </a> in the urls. See the
+code in find_urls for some comments.
