@@ -12,6 +12,7 @@ def f2(x):  #Linear function
 
 #TEST integrate
 def test_integral_of_constant_function():
+    print("yay")
     f1 = vectorize(f)
     computed_ans = integrate(f1, 0, 1, 10) #N = 10
     assert abs(2.0 - computed_ans) < 1E-10
