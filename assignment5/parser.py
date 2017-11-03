@@ -18,27 +18,32 @@ def parse_nwodkram(text):
     """
 
     #Methods for replacing nwodkram text with html
-    def html_bold(s):
+    def html_bold(s): #return bold text for html
         inner_text = list(s.group(2))
         return "<b>" + "".join(inner_text) + "</b>"
-    def html_italic(s):
+
+    def html_italic(s): #return italic text for html
         inner_text = list(s.group(2))
         return "<i>" + "".join(inner_text) + "</i>"
-    def html_hyperlink(s):
+
+    def html_hyperlink(s): #return hyperlinks for html
         link_text = "".join(list(s.group(1)))
         url = "".join(list(s.group(2)))
         if re.match(r"http", url) is None and re.match(r"//", url) is None:
             url = "http://" + url #Prevent link from being a relative URL
         return "<a href=\"" + url + "\">" + link_text + "</a>"
-    def html_blockquote(s):
+
+    def html_blockquote(s): #return quotes for html
         quote = list(s.group(1))
         return "<blockquote>" + "".join(quote) + "</blockquote>"
-    def html_wikipedia(s):
+
+    def html_wikipedia(s): #return wikipedia queries for html
         wpquery = "".join(list(s.group(1)))
         wpquery = re.sub(r" ", r"_", wpquery)
         link_text = "Search for '" + wpquery + "'" + " on Wikipedia"
         return "<a href=\"https://en.wikipedia.org/wiki/" + wpquery + "\">" + "".join(link_text) + "</a>"
-    def html_image(s):
+
+    def html_image(s): #return images for html
         imageURL = "".join(list(s.group(1)))
         imageWidth = "".join(list(s.group(2)))
         imageHeight = "".join(list(s.group(3)))
@@ -55,12 +60,6 @@ def parse_nwodkram(text):
 
     print(html_text)
 
-    """
-    #DOCTEST
-    if __name__ == "__main__":
-        import doctest
-        doctest.testmod()
-    """
 
     return html_text
 
@@ -86,5 +85,6 @@ sample_input = r"""
     Picture: <calvin-and-hobbes.jpg>(w=600,h=189)
     """
 
-parse_nwodkram(sample_input)
+#RUN THIS TO TEST SAMPLE ABOVE
+#parse_nwodkram(sample_input)
 
